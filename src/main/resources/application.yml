@@ -8,8 +8,8 @@ spring:
     name: auth-service
 
   datasource:
-    url: "jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/auth"
-    username: auth
+    url: "jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/bonadia"
+    username: bonadia
     password: it4rYbbvxEy8aJoFarYxMF2vYEv4qd
     driver-class-name: org.postgresql.Driver
 
