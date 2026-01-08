@@ -1,38 +1,39 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /auth
+    context-path: ${SERVER_SERVLET_CONTEXT_PATH:/auth}
 
 spring:
   application:
     name: auth-service
 
   datasource:
-    url: "jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/bonadia"
-    username: bonadia
-    password: it4rYbbvxEy8aJoFarYxMF2vYEv4qd
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/auth}
+    username: ${SPRING_DATASOURCE_USERNAME:auth}
+    password: ${SPRING_DATASOURCE_PASSWORD:auth}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
 
   flyway:
-    enabled: true
-    baseline-on-migrate: true
-    locations: classpath:db/migration
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    baseline-on-migrate: ${SPRING_FLYWAY_BASELINE_ON_MIGRATE:true}
+    locations: ${SPRING_FLYWAY_LOCATIONS:classpath:db/migration}
 
   data:
     redis:
-      host: redis.redis.svc.cluster.local
-      port: 6379
+      host: ${SPRING_DATA_REDIS_HOST:redis.redis.svc.cluster.local}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      password: ${SPRING_DATA_REDIS_PASSWORD:auth}
 
 security:
   jwt:
-    issuer: "https://bonadia.dev.com/auth"
-    secret: "change-me-now-change-me-now-change-me-now-32bytes"
+    issuer: ${SECURITY_JWT_ISSUER:https://bonadia.dev.com/auth}
+    secret: ${SECURITY_JWT_SECRET}
