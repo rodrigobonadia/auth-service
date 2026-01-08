@@ -34,3 +34,41 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+      - name: Checkout infra repo
+        uses: actions/checkout@v4
+        with:
+          repository: rodrigobonadia/infra-k3s
+          token: ${{ secrets.DEPLOY_REPO_TOKEN }}
+          path: infra-k3s
+
+      - name: Update auth-service image in deployment.yaml
+        run: |
+          set -euo pipefail
+          FILE="infra-k3s/apps/auth-service/deployment.yaml"
+          IMAGE_BASE="ghcr.io/rodrigobonadia/auth-service"
+          NEW_IMAGE="${IMAGE_BASE}:${{ github.sha }}"
+      
+          echo "Updating image to: ${NEW_IMAGE}"
+          sed -i -E "s|image:\s*${IMAGE_BASE}:[^[:space:]]+|image: ${NEW_IMAGE}|g" "${FILE}"
+
+         echo "Resulting image line:"
+          grep -n "image:" "${FILE}"
+
+      - name: Commit and push infra change
+        run: |
+          set -euo pipefail
+          cd infra-k3s
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add apps/auth-service/deployment.yaml
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore(auth-service): bump image to ${{ github.sha }}"
+          git push
+
