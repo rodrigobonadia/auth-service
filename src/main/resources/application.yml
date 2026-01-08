@@ -1,13 +1,18 @@
 server:
   port: 8080
+  servlet:
+    context-path: /auth
+
 spring:
   application:
     name: auth-service
+
   datasource:
-    url: "jdbc:postgresql://localhost:5432/auth"
+    url: "jdbc:postgresql://auth-postgres.postgres.svc.cluster.local:5432/auth"
     username: auth
     password: it4rYbbvxEy8aJoFarYxMF2vYEv4qd
     driver-class-name: org.postgresql.Driver
+
   jpa:
     open-in-view: false
     hibernate:
@@ -16,15 +21,18 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
+
   flyway:
     enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
+
   data:
     redis:
-      host: localhost
+      host: auth-redis.postgres.svc.cluster.local
       port: 6379
+
 security:
   jwt:
-    issuer: "http://localhost:8080"
+    issuer: "https://bonadia.dev.com/auth"
     secret: "change-me-now-change-me-now-change-me-now-32bytes"
