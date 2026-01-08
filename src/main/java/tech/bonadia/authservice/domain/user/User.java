@@ -19,7 +19,7 @@ public final class User {
   }
 
   public static User createNew(Email email, String passwordHash) {
-    return new User(UserId.newId(), email, passwordHash, true, Instant.now());
+    return new User(UserId.generate(), email, passwordHash, true, Instant.now());
   }
 
   public UserId id() { return id; }
