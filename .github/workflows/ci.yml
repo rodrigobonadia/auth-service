@@ -52,7 +52,7 @@ jobs:
           echo "Updating image to: ${NEW_IMAGE}"
           sed -i -E "s|image:\s*${IMAGE_BASE}:[^[:space:]]+|image: ${NEW_IMAGE}|g" "${FILE}"
 
-         echo "Resulting image line:"
+          echo "Resulting image line:"
           grep -n "image:" "${FILE}"
 
       - name: Commit and push infra change
