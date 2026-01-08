@@ -8,7 +8,7 @@ spring:
     name: auth-service
 
   datasource:
-    url: "jdbc:postgresql://auth-postgres.postgres.svc.cluster.local:5432/auth"
+    url: "jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/auth"
     username: auth
     password: it4rYbbvxEy8aJoFarYxMF2vYEv4qd
     driver-class-name: org.postgresql.Driver
@@ -29,7 +29,7 @@ spring:
 
   data:
     redis:
-      host: auth-redis.postgres.svc.cluster.local
+      host: redis.redis.svc.cluster.local
       port: 6379
 
 security:
